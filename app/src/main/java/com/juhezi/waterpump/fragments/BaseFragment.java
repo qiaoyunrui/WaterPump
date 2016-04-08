@@ -8,5 +8,5 @@ import android.app.Fragment;
  * @author: 乔云瑞
  * @time: 2016/4/7 21:20
  */
-public class BaseFragment extends Fragment {
+public class BaseFragment extends android.support.v4.app.Fragment {
 }
