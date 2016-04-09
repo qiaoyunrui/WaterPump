@@ -27,6 +27,7 @@ public class MainActivity extends BaseActivity {
 
     private List<String> tabNames;
     private List<BaseFragment> fragments;
+    private List<Integer> tabIcs;
 
     private PersonFragment mPersonFragment;
     private GraphFragment mGraphFragment;
@@ -65,14 +66,10 @@ public class MainActivity extends BaseActivity {
     private void initTablayoutAndViewPager() {
         tabNames = new ArrayList<>();
         fragments = new ArrayList<>();
+        tabIcs = new ArrayList<>();
         tabNames.add(TAB_NAME_1);
         tabNames.add(TAB_NAME_2);
         tabNames.add(TAB_NAME_3);
-
-
-        /*for (String tabName : tabNames) {
-            mTabLayout.addTab(mTabLayout.newTab().setText(tabName).setIcon(getResources().getDrawable(R.mipmap.ic_launcher)));
-        }*/
 
         mVideoFragment = new VideoFragment();
         mPersonFragment = new PersonFragment();
@@ -81,9 +78,13 @@ public class MainActivity extends BaseActivity {
         fragments.add(mVideoFragment);
         fragments.add(mPersonFragment);
 
-        VPAndTLAdapter mVpAndTLAdapter = new VPAndTLAdapter(getSupportFragmentManager(), tabNames, fragments);
+        for (int i = 0; i < 3; i++) {
+            tabIcs.add(R.mipmap.ic_launcher);
+        }
+        VPAndTLAdapter mVpAndTLAdapter = new VPAndTLAdapter(getSupportFragmentManager(), this, tabNames, fragments, tabIcs);
         mViewPager.setAdapter(mVpAndTLAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
+
     }
 
 }
