@@ -8,7 +8,7 @@ package com.juhezi.waterpump.fragments;
  * <p/>
  * 注册
  */
-public class SignUpFragment extends BaseFragment {
+public class SignUpFragment extends BaseAppFragment {
 
     private static final String TAG = "SignUpFragment";
 

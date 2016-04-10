@@ -66,4 +66,5 @@ public class VPAndTLAdapter extends FragmentStatePagerAdapter {
         }
         return spannableString;
     }
+
 }
