@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">WaterPump</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
 </resources>

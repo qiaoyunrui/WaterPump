@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.Other;
+package com.juhezi.waterpump.other;
 
 /**
  * Config
@@ -8,6 +8,7 @@ package com.juhezi.waterpump.Other;
  */
 public class Config {
 
-
+    public static final String SIGN_INFO = "signInfo";
+    public static final String SIGN_STATE = "signState";
 
 }

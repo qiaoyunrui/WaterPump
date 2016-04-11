@@ -1,5 +1,7 @@
 package com.juhezi.waterpump.activities;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import com.juhezi.waterpump.fragments.BaseFragment;
 import com.juhezi.waterpump.fragments.GraphFragment;
 import com.juhezi.waterpump.fragments.PersonFragment;
 import com.juhezi.waterpump.fragments.VideoFragment;
+import com.juhezi.waterpump.other.Config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,6 +28,9 @@ public class MainActivity extends BaseActivity {
     private TabLayout mTabLayout;
     private ViewPager mViewPager;
 
+    private Intent mIntent;
+    private SharedPreferences mSharedPreferences;
+
     private List<String> tabNames;
     private List<BaseFragment> fragments;
     private List<Integer> tabIcs;
@@ -33,11 +39,17 @@ public class MainActivity extends BaseActivity {
     private GraphFragment mGraphFragment;
     private VideoFragment mVideoFragment;
 
+    private boolean signState = false;   //登录状态
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        initData();
+
+        turn2SignActivity();
 
         initView();
 
@@ -57,7 +69,9 @@ public class MainActivity extends BaseActivity {
     }
 
     private void initData() {
-
+        mSharedPreferences = getSharedPreferences(Config.SIGN_INFO, MODE_PRIVATE);
+        signState = mSharedPreferences.getBoolean(Config.SIGN_STATE, false);
+        mIntent = new Intent(this, SignInAndUpActivity.class);
     }
 
     /**
@@ -85,6 +99,16 @@ public class MainActivity extends BaseActivity {
         mViewPager.setAdapter(mVpAndTLAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
+    }
+
+    /**
+     * 切换到登录注册界面
+     */
+    private void turn2SignActivity() {
+        if (!signState) { //如果还没有登录
+            startActivity(mIntent);
+            finish();
+        }
     }
 
 }
