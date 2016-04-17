@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.activities;
+package com.juhezi.waterpump.Activities;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -8,11 +8,11 @@ import android.os.Bundle;
 
 import com.juhezi.waterpump.Adapters.VPAndTLAdapter;
 import com.juhezi.waterpump.R;
-import com.juhezi.waterpump.fragments.BaseFragment;
-import com.juhezi.waterpump.fragments.GraphFragment;
-import com.juhezi.waterpump.fragments.PersonFragment;
-import com.juhezi.waterpump.fragments.VideoFragment;
-import com.juhezi.waterpump.other.Config;
+import com.juhezi.waterpump.Fragments.BaseFragment;
+import com.juhezi.waterpump.Fragments.GraphFragment;
+import com.juhezi.waterpump.Fragments.PersonFragment;
+import com.juhezi.waterpump.Fragments.VideoFragment;
+import com.juhezi.waterpump.Other.Config;
 
 import java.util.ArrayList;
 import java.util.List;

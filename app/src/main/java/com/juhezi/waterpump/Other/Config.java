@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.other;
+package com.juhezi.waterpump.Other;
 
 /**
  * Config
@@ -10,5 +10,7 @@ public class Config {
 
     public static final String SIGN_INFO = "signInfo";
     public static final String SIGN_STATE = "signState";
+
+    public static final String SIGN_URL = "http://localhost/WaterPump/Functions/SignIn.php";
 
 }

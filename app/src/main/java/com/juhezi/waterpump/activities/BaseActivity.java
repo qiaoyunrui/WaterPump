@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.activities;
+package com.juhezi.waterpump.Activities;
 
 import android.support.v7.app.AppCompatActivity;
 

@@ -1,21 +1,14 @@
 package com.juhezi.waterpump.Adapters;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 import android.text.style.ImageSpan;
-import android.util.Log;
 
-import com.juhezi.waterpump.R;
-import com.juhezi.waterpump.fragments.BaseFragment;
+import com.juhezi.waterpump.Fragments.BaseFragment;
 
 import java.util.List;
 

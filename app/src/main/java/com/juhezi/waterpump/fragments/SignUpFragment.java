@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.fragments;
+package com.juhezi.waterpump.Fragments;
 
 /**
  * SignUpFragment

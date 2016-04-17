@@ -1,18 +1,14 @@
-package com.juhezi.waterpump.activities;
+package com.juhezi.waterpump.Activities;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.os.PersistableBundle;
 import android.support.annotation.Nullable;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
-import android.view.View;
 import android.widget.FrameLayout;
 
 import com.juhezi.waterpump.R;
-import com.juhezi.waterpump.fragments.BaseAppFragment;
-import com.juhezi.waterpump.fragments.SignInFragment;
+import com.juhezi.waterpump.Fragments.BaseAppFragment;
+import com.juhezi.waterpump.Fragments.SignInFragment;
 
 /**
  * SignInAndUpActivity

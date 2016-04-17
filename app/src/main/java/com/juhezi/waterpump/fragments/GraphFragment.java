@@ -1,4 +1,4 @@
-package com.juhezi.waterpump.fragments;
+package com.juhezi.waterpump.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
