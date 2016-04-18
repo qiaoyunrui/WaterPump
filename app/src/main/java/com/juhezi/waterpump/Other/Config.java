@@ -11,6 +11,8 @@ public class Config {
     public static final String SIGN_INFO = "signInfo";
     public static final String SIGN_STATE = "signState";
 
-    public static final String SIGN_URL = "http://localhost/WaterPump/Functions/SignIn.php";
+    public static final String HTTP = "http://";
+
+    public static final String SIGN_URL = "/WaterPump/Functions/SignIn.php";
 
 }

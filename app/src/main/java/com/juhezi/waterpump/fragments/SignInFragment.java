@@ -15,6 +15,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ public class SignInFragment extends BaseAppFragment {
     private TextInputLayout mTILpassword;
     private FloatingActionButton mFABsignin;
     private ProgressBar mProgressBar;
+    private EditText mETip;
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor editor;
@@ -85,6 +87,7 @@ public class SignInFragment extends BaseAppFragment {
         mTILpassword = (TextInputLayout) rootView.findViewById(R.id.password_signin);
         mFABsignin = (FloatingActionButton) rootView.findViewById(R.id.button_signin);
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.progress_login);
+        mETip = (EditText) rootView.findViewById(R.id.ip_signin);
         return rootView;
     }
 
@@ -102,12 +105,18 @@ public class SignInFragment extends BaseAppFragment {
             public void onClick(View v) {
                 final String username = mTILusername.getEditText().getText().toString();
                 final String password = mTILpassword.getEditText().getText().toString();
+                final String ip = mETip.getText().toString();
+
+                final String url = Config.HTTP + ip + Config.SIGN_URL;
+                final String param = "username=" + username + "&password=" + password;
+                Log.i(TAG, url);
+                Log.i(TAG, param);
                 mProgressBar.setVisibility(View.VISIBLE);   //显示进度条
                 new Thread() {
                     @Override
                     public void run() {
-                        result = HttpUtil.postRequest(Config.SIGN_URL, username + "&" + password);
-                        Log.i(TAG, result);
+                        result = HttpUtil.postRequest(url, param);
+                        Log.i(TAG, "result is " + result);
                         handler.sendEmptyMessage(0x100);
                     }
                 }.start();
