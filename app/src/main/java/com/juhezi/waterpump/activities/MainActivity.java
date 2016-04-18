@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.juhezi.waterpump.Adapters.VPAndTLAdapter;
+import com.juhezi.waterpump.DataStructure.LoopList;
 import com.juhezi.waterpump.R;
 import com.juhezi.waterpump.Fragments.BaseFragment;
 import com.juhezi.waterpump.Fragments.GraphFragment;
@@ -92,10 +94,11 @@ public class MainActivity extends BaseActivity {
         fragments.add(mVideoFragment);
         fragments.add(mPersonFragment);
 
-        for (int i = 0; i < 3; i++) {
-            tabIcs.add(R.mipmap.ic_launcher);
-        }
-        VPAndTLAdapter mVpAndTLAdapter = new VPAndTLAdapter(getSupportFragmentManager(), this, tabNames, fragments, tabIcs);
+        tabIcs.add(R.drawable.ic_send_black_24dp);
+        tabIcs.add(R.drawable.ic_live_tv_black_24dp);
+        tabIcs.add(R.drawable.ic_person_black_24dp);
+
+        VPAndTLAdapter mVpAndTLAdapter = new VPAndTLAdapter(getSupportFragmentManager(), this, null, fragments, tabIcs);
         mViewPager.setAdapter(mVpAndTLAdapter);
         mTabLayout.setupWithViewPager(mViewPager);
 
