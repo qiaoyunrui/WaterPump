@@ -15,4 +15,6 @@ public class Config {
 
     public static final String SIGN_URL = "/WaterPump/Functions/SignIn.php";
 
+    public static final String NODE_BUNDLE_KEY = "node_bundle_key";
+
 }

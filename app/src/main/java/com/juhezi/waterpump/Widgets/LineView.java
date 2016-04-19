@@ -13,12 +13,15 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.juhezi.waterpump.DataStructure.LoopList;
+import com.juhezi.waterpump.DataStructure.Node;
+
 /**
  * LineView
  *
  * @author: 乔云瑞
  * @time: 2016/4/18 11:47
- * <p/>
+ * <p>
  * 绘制折线图
  */
 public class LineView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
@@ -34,7 +37,10 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
     private int viewWidth;
     private int margin;
 
-    private static final int PERIOD = 100;
+    private LoopList<Node> loopList;
+
+    public static final int MAX_VALUE = 100;
+    public static final int PERIOD = 100;
 
     public LineView(Context context) {
         super(context);
@@ -113,12 +119,23 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
             for (int i = 0; i < 5; i++) {
                 mCanvas.drawLine(margin + i * (viewWidth - 2 * margin) / 4, viewHeight - margin, margin + i * (viewWidth - 2 * margin) / 4, 0, mPaint);
             }
+            update(mCanvas, mPaint);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (mCanvas != null) {
                 mHolder.unlockCanvasAndPost(mCanvas);
             }
+        }
+    }
+
+    private void update(Canvas mCanvas, Paint mPaint) {
+
+    }
+
+    public void pushNode(Node node) {
+        if (node != null) {
+            loopList.push(node);
         }
     }
 

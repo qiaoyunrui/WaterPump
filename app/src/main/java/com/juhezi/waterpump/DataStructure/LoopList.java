@@ -8,7 +8,7 @@ import java.util.List;
  *
  * @author: 乔云瑞
  * @time: 2016/4/18 15:12
- * <p/>
+ * <p>
  * 循环线性表
  */
 public class LoopList<T> {
@@ -27,6 +27,10 @@ public class LoopList<T> {
         } else {    //线性表没有满
             list.add(object);
         }
+    }
+
+    public int size() {
+        return list.size();
     }
 
     @Override
