@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 
 import com.juhezi.waterpump.DataStructure.LoopList;
 import com.juhezi.waterpump.DataStructure.Node;
+import com.juhezi.waterpump.Network.SocketUtil;
 import com.juhezi.waterpump.Other.Config;
 import com.juhezi.waterpump.R;
 import com.juhezi.waterpump.Widgets.LineView;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
@@ -61,21 +61,19 @@ public class GraphFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
-        /*LoopList<Integer> loopList = new LoopList<>(5);
-        for (int i = 0; i < 10; i++) {
-            loopList.push(i);
-            Log.i(TAG, loopList.toString());
-        }*/
         timer();
     }
 
     private void timer() {
+
         mTimer = new Timer(true);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
+                int result = SocketUtil.socketClient();
                 Bundle bundle = new Bundle();
-                Node node = new Node(new Date().getSeconds(), new Random(System.currentTimeMillis()).nextDouble() * LineView.MAX_VALUE);
+//                Node node = new Node(new Date().getSeconds(), new Random(System.currentTimeMillis()).nextDouble() * LineView.MAX_VALUE);
+                Node node = new Node(new Date().getSeconds(), result);
                 bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
                 Message msg = new Message();
                 msg.what = 0x101;

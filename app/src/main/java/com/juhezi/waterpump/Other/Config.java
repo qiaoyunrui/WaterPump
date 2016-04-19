@@ -18,4 +18,8 @@ public class Config {
     public static final String NODE_BUNDLE_KEY = "node_bundle_key";
 
     public static final int WARN_VALUE = 80;
+
+    public static final int PORT = 12138;
+
+    public static final String DEFAULT_PORT = "192.168.43.155";
 }
