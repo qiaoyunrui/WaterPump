@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.juhezi.waterpump.DataStructure.LoopList;
 import com.juhezi.waterpump.DataStructure.Node;
 import com.juhezi.waterpump.Other.Config;
 import com.juhezi.waterpump.R;
@@ -24,7 +26,7 @@ import java.util.TimerTask;
  *
  * @author: 乔云瑞
  * @time: 2016/4/7 21:51
- * <p>
+ * <p/>
  * 曲线界面
  */
 public class GraphFragment extends BaseFragment {
@@ -33,6 +35,8 @@ public class GraphFragment extends BaseFragment {
 
     private View rootView;
     private LineView mLineView;
+
+    private Timer mTimer;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -43,7 +47,6 @@ public class GraphFragment extends BaseFragment {
                 Node node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
                 mLineView.pushNode(node);
             }
-
         }
     };
 
@@ -58,11 +61,16 @@ public class GraphFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        /*LoopList<Integer> loopList = new LoopList<>(5);
+        for (int i = 0; i < 10; i++) {
+            loopList.push(i);
+            Log.i(TAG, loopList.toString());
+        }*/
         timer();
     }
 
     private void timer() {
-        Timer timer = new Timer(true);
+        mTimer = new Timer(true);
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
@@ -75,6 +83,12 @@ public class GraphFragment extends BaseFragment {
                 mHandler.sendMessage(msg);
             }
         };
-        timer.schedule(task, LineView.PERIOD);
+        mTimer.schedule(task, 0, LineView.PERIOD);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mTimer.cancel();
     }
 }

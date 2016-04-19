@@ -17,4 +17,5 @@ public class Config {
 
     public static final String NODE_BUNDLE_KEY = "node_bundle_key";
 
+    public static final int WARN_VALUE = 80;
 }
