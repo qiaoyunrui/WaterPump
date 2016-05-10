@@ -44,8 +44,12 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     private LoopList<Node> loopList;
 
-    public static final int MAX_VALUE = 100;
-    public static final int PERIOD = 1000;
+    private int numOfXPoints = 5;    //横坐标显示点的个数
+    private int maxValue = 100;     //最大值
+    private int warningValue = 80;  //警戒值
+    private int period = 1000;  //循环周期
+
+    private int[] colors = {Color.BLUE, Color.DKGRAY, Color.GRAY, Color.MAGENTA};
 
     public LineView(Context context) {
         super(context);
@@ -62,13 +66,47 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         initView();
     }
 
+    public int getNumOfXPoints() {
+        return numOfXPoints;
+    }
+
+    public void setNumOfXPoints(int numOfXPoints) {
+        this.numOfXPoints = numOfXPoints;
+    }
+
+    public int getMaxValue() {
+        return maxValue;
+    }
+
+    public void setMaxValue(int maxValue) {
+        this.maxValue = maxValue;
+    }
+
+    public int getWarningValue() {
+        return warningValue;
+    }
+
+    public void setWarningValue(int warningValue) {
+        this.warningValue = warningValue;
+    }
+
+    public int getPeriod() {
+        return period;
+    }
+
+    public void setPeriod(int period) {
+        this.period = period;
+    }
+
     @Override
     public void surfaceCreated(SurfaceHolder holder) {
         viewHeight = getHeight();
         viewWidth = getWidth();
         margin = viewWidth / 7;
         mIsDrawing = true;
-        loopList = new LoopList<>(5);
+        //绘制基本组件
+//        draw();
+//        开启动态绘制
         new Thread(this).start();
     }
 
@@ -88,9 +126,9 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
             long start = System.currentTimeMillis();
             draw();
             long end = System.currentTimeMillis();
-            if (end - start < PERIOD) {
+            if (end - start < period) {
                 try {
-                    Thread.sleep(PERIOD - (end - start));
+                    Thread.sleep(period - (end - start));
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -104,6 +142,8 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setKeepScreenOn(true);
+
+        loopList = new LoopList<>(numOfXPoints);
     }
 
     private void draw() {
@@ -122,16 +162,16 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
             PathEffect mPathEffect = new DashPathEffect(new float[]{20, 10, 5, 10}, 1);
             mPaint.setPathEffect(mPathEffect);
             mPaint.setStrokeWidth(2.5f);
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < numOfXPoints; i++) {
                 mCanvas.drawLine(margin + i * (viewWidth - 2 * margin) / 4, viewHeight - margin, margin + i * (viewWidth - 2 * margin) / 4, 0, mPaint);
             }
             //绘制警戒线
             mPaint.setColor(Color.RED);
             mCanvas.drawLine(
                     0,
-                    (float) (1 - (Config.WARN_VALUE / 100.0)) * (viewHeight - margin),
+                    (float) (1 - (warningValue / 100.0)) * (viewHeight - margin),
                     viewWidth,
-                    (float) (1 - (Config.WARN_VALUE / 100.0)) * (viewHeight - margin),
+                    (float) (1 - (warningValue / 100.0)) * (viewHeight - margin),
                     mPaint);
             update(mCanvas, mPaint);
         } catch (Exception e) {
@@ -143,6 +183,18 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
+    /**
+     * 更新折线
+     * <p/>
+     * 1.绘制横坐标
+     * 2.绘制网格（用虚线）
+     * 3.绘制曲线，使用drawline
+     * 4.绘制节点（每一个节点上都要显示数据）
+     * 5.循环移动画布
+     *
+     * @param mCanvas
+     * @param mPaint
+     */
     private void update(Canvas mCanvas, Paint mPaint) {
         if (loopList != null) {
 //            Log.i(TAG, loopList.toString());
@@ -150,39 +202,48 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (loopList.size() == 1) {
                     break;
                 }
-                mPaint.setColor(Color.BLUE);
-                mPaint.setPathEffect(new PathEffect());
-                /**
-                 * 绘制折线
-                 */
-                mCanvas.drawLine(
-                        margin + (5 - loopList.size() + i - 1) * (viewWidth - 2 * margin) / 4,
-                        (float) (1 - (loopList.get(i - 1).getValue() / MAX_VALUE)) * (viewHeight - margin),
-                        margin + (5 - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
-                        (float) (1 - (loopList.get(i).getValue() / MAX_VALUE)) * (viewHeight - margin),
-                        mPaint);
-                if (loopList.get(i).isState()) {
-                    mPaint.setColor(Color.BLUE);
-                } else {
-                    mPaint.setColor(Color.RED);
+                for (int j = 0; j < loopList.getNumOfValues(); j++) {
+                    //设置不同的画笔颜色
+                    mPaint.setColor(colors[j]);
+                    mPaint.setPathEffect(new PathEffect());
+
+                    /**
+                     * 绘制折线
+                     */
+                    mCanvas.drawLine(
+                            margin + (numOfXPoints - loopList.size() + i - 1) * (viewWidth - 2 * margin) / 4,
+                            (float) (1 - (loopList.get(i - 1).getValues().get(j) / maxValue)) * (viewHeight - margin),
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                            (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin),
+                            mPaint);
+                    if (loopList.get(i).getValues().get(j) < warningValue) {    //正常数值
+                        mPaint.setColor(colors[j]);
+                    } else {    //警戒数值
+                        mPaint.setColor(Color.RED);
+                    }
+
+                    /**
+                     * 绘制节点
+                     */
+                    mCanvas.drawCircle(
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                            (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin),
+                            10,
+                            mPaint);
+
+                    /**
+                     * 绘制参数
+                     */
+                    mPaint.setTextSize(30);
+                    mCanvas.drawText(
+                            loopList.get(i).getValues().get(j).intValue() + "",
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4 - margin / 2,
+                            (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin) + 10,
+                            mPaint);
+
+
                 }
-                /**
-                 * 绘制节点
-                 */
-                mCanvas.drawCircle(
-                        margin + (5 - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
-                        (float) (1 - (loopList.get(i).getValue() / MAX_VALUE)) * (viewHeight - margin),
-                        10,
-                        mPaint);
-                /**
-                 * 绘制参数
-                 */
-                mPaint.setTextSize(30);
-                mCanvas.drawText(
-                        (int) loopList.get(i).getValue() + "",
-                        margin + (5 - loopList.size() + i) * (viewWidth - 2 * margin) / 4 - margin / 2,
-                        (float) (1 - (loopList.get(i).getValue() / MAX_VALUE)) * (viewHeight - margin) + 10,
-                        mPaint);
+
                 /**
                  * 绘制时间
                  */
@@ -190,39 +251,47 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mPaint.setTextSize(30);
                 mCanvas.drawText(
                         loopList.get(i).getSecond() + "",
-                        margin + (5 - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                        margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
                         viewHeight - margin / 2,
                         mPaint);
+
             }
             /**
-             * 设置节点的颜色
+             * 绘制第一个节点
              */
             if (loopList.size() > 0) {
-                //mPaint.setStyle(Paint.Style.STROKE);
-                mPaint.setPathEffect(new PathEffect());
 
-                if (loopList.get(0).isState()) {
-                    mPaint.setColor(Color.BLUE);
-                } else {
-                    mPaint.setColor(Color.RED);
+                for (int j = 0; j < loopList.getNumOfValues(); j++) {
+                    mPaint.setPathEffect(new PathEffect());
+
+                    if (loopList.get(0).getValues().get(j) < warningValue) {
+                        mPaint.setColor(colors[j]);
+                    } else {
+                        mPaint.setColor(Color.RED);
+                    }
+
+                    /**
+                     * 绘制节点
+                     */
+                    mCanvas.drawCircle(
+                            margin + (numOfXPoints - loopList.size()) * (viewWidth - 2 * margin) / 4,
+                            (float) ((1 - (loopList.get(0).getValues().get(j) / maxValue)) * (viewHeight - margin)),
+                            10,
+                            mPaint);
+
+                    /**
+                     * 绘制参数
+                     */
+                    mPaint.setTextSize(30);
+                    mCanvas.drawText(
+                            loopList.get(0).getValues().get(0).intValue() + "",
+                            margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / 4 - margin / 2,
+                            (float) (1 - (loopList.get(0).getValues().get(j) / maxValue)) * (viewHeight - margin) + 10,
+                            mPaint);
+
+
                 }
-                /**
-                 * 绘制节点
-                 */
-                mCanvas.drawCircle(
-                        margin + (5 - loopList.size()) * (viewWidth - 2 * margin) / 4,
-                        (float) ((1 - (loopList.get(0).getValue() / MAX_VALUE)) * (viewHeight - margin)),
-                        10,
-                        mPaint);
-                /**
-                 * 绘制参数
-                 */
-                mPaint.setTextSize(30);
-                mCanvas.drawText(
-                        (int) loopList.get(0).getValue() + "",
-                        margin + (5 - loopList.size() + 0) * (viewWidth - 2 * margin) / 4 - margin / 2,
-                        (float) (1 - (loopList.get(0).getValue() / MAX_VALUE)) * (viewHeight - margin) + 10,
-                        mPaint);
+
                 /**
                  * 绘制时间
                  */
@@ -230,9 +299,10 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mPaint.setTextSize(30);
                 mCanvas.drawText(
                         loopList.get(0).getSecond() + "",
-                        margin + (5 - loopList.size() + 0) * (viewWidth - 2 * margin) / 4,
+                        margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / 4,
                         viewHeight - margin / 2,
                         mPaint);
+
             }
         }
     }
@@ -243,12 +313,8 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         }
     }
 
-}
+    public void setLoopListNumOfValues(int num) {
+        loopList.setNumOfValues(num);
+    }
 
-/**
- * 1.绘制横坐标
- * 2.绘制网格（用虚线）
- * 3.绘制曲线，使用drawline
- * 4.绘制节点（每一个节点上都要显示数据）
- * 5.循环移动画布
- */
+}

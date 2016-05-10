@@ -3,6 +3,8 @@ package com.juhezi.waterpump.DataStructure;
 import com.juhezi.waterpump.Other.Config;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Node
@@ -16,10 +18,15 @@ public class Node implements Serializable {
 
     private double value;   //代表的数值
     private int second; //所处的秒段
-    private boolean state = false;  //该节点所代表的状态 true表示未达到预警值 false表示达到预警值
+
+    private List<Double> values = new ArrayList<>();
+
+    public Node(int second) {
+        this.second = second;
+    }
 
     public Node(int second, double value) {
-        this.second = second;
+        this(second);
         this.value = value;
     }
 
@@ -39,19 +46,30 @@ public class Node implements Serializable {
         this.second = second;
     }
 
-    public boolean isState() {
-        return value < Config.WARN_VALUE;
+    /**
+     * 添加value
+     *
+     * @param value
+     */
+    public void addValue(double value) {
+        values.add(value);
     }
 
-    public void setState(boolean state) {
-        this.state = state;
+    /**
+     * 获取values List
+     *
+     * @return
+     */
+    public List<Double> getValues() {
+        return values;
     }
 
     @Override
     public String toString() {
         return "Node{" +
-                "second=" + second +
-                ", value=" + value +
+                "value=" + value +
+                ", second=" + second +
+                ", values=" + values +
                 '}';
     }
 }

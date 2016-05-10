@@ -37,6 +37,7 @@ public class GraphFragment extends BaseFragment {
     private LineView mLineView;
 
     private Timer mTimer;
+    private Node node;
 
     private Handler mHandler = new Handler() {
         @Override
@@ -61,6 +62,8 @@ public class GraphFragment extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        mLineView.setLoopListNumOfValues(4);
+//        mLineView.setNumOfXPoints(6);
         timer();
     }
 
@@ -70,10 +73,15 @@ public class GraphFragment extends BaseFragment {
         TimerTask task = new TimerTask() {
             @Override
             public void run() {
-                int result = SocketUtil.socketClient();
+//                int result = SocketUtil.socketClient();
                 Bundle bundle = new Bundle();
-//                Node node = new Node(new Date().getSeconds(), new Random(System.currentTimeMillis()).nextDouble() * LineView.MAX_VALUE);
-                Node node = new Node(new Date().getSeconds(), result);
+                node = new Node(new Date().getSeconds());
+                long seed = System.currentTimeMillis();
+                for (int i = 0; i < 4; i++) {
+                    node.addValue(new Random(seed + i * i * 10).nextDouble() * mLineView.getMaxValue());
+                    seed = new Random(seed).nextLong() * 1000;
+                }
+//                Node node = new Node(new Date().getSeconds(), result);
                 bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
                 Message msg = new Message();
                 msg.what = 0x101;
@@ -81,7 +89,7 @@ public class GraphFragment extends BaseFragment {
                 mHandler.sendMessage(msg);
             }
         };
-        mTimer.schedule(task, 0, LineView.PERIOD);
+        mTimer.schedule(task, 0, mLineView.getPeriod());
     }
 
     @Override

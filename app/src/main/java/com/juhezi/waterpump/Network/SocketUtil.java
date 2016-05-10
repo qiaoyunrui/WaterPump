@@ -33,14 +33,12 @@ public class SocketUtil {
                             mSocket.getInputStream()));
             String line = mBufferedReader.readLine();
             result = Integer.parseInt(line);
-            //Log.i(TAG,result + "");
             mBufferedReader.close();
             mSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return result;
-
     }
 
 }

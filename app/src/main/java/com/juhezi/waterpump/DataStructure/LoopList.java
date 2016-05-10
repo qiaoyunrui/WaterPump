@@ -17,6 +17,7 @@ public class LoopList<T> {
 
     private static final String TAG = "LoopList";
     private int length;
+    private int numOfValues = 1;
     private List<T> list = new ArrayList<>();
 
     public LoopList(int length) {
@@ -52,4 +53,13 @@ public class LoopList<T> {
         }
         return list.get(i);
     }
+
+    public int getNumOfValues() {
+        return numOfValues;
+    }
+
+    public void setNumOfValues(int numOfValues) {
+        this.numOfValues = numOfValues;
+    }
+
 }

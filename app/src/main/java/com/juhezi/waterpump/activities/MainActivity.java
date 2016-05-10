@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity {
 
         initData();
 
-        turn2SignActivity();
+//        turn2SignActivity();
 
         initView();
 
