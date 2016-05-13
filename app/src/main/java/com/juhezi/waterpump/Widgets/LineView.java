@@ -182,7 +182,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
             //绘制标识
             for (int i = 0; i < loopList.getNumOfValues(); i++) {
                 mPaint.setColor(colors[i]);
-                mCanvas.drawCircle((viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + margin,
+                mCanvas.drawCircle((viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + margin / 3,
                         viewHeight - margin / 3,
                         10,
                         mPaint);
@@ -193,7 +193,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 }
                 mCanvas.drawText(
                         tempString,
-                        (viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + 5 * margin / 4,
+                        (viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + 4 * margin / 9,
                         viewHeight - margin / 4,
                         mPaint
                 );

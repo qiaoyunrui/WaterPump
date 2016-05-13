@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -61,16 +62,6 @@ public class GraphFragment extends BaseFragment {
     private Node node;
     private Bundle bundle;
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if (msg.what == 0x101) {
-                bundle = msg.getData();
-                node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
-            }
-        }
-    };
 
     @Nullable
     @Override
@@ -123,20 +114,6 @@ public class GraphFragment extends BaseFragment {
         mTabLayout.setupWithViewPager(mViewPager);
     }
 
-    /**
-     * 初始化折线图的属性
-     */
-    /*private void initLineView() {
-
-        mLineView.setLoopListNumOfValues(4);
-        mLineView.setNumOfXPoints(6);
-        mLineView.pushName("水管流量一");
-        mLineView.pushName("水管流量二");
-        mLineView.pushName("水管流量三");
-        mLineView.pushName("水管流量四");
-
-    }*/
-
 
     @Override
     public void onDestroy() {
@@ -158,10 +135,9 @@ public class GraphFragment extends BaseFragment {
                 }
 //                Node node = new Node(new Date().getSeconds(), result);
                 bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
-                Message msg = new Message();
-                msg.what = 0x101;
-                msg.setData(bundle);
-                mHandler.sendMessage(msg);
+                for(BaseFragment fragment : fragments) {
+                        fragment.handleBundle(bundle);
+                }
             }
         };
         mTimer.schedule(task, 0, Config.PERIOD);

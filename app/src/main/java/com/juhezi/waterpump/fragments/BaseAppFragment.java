@@ -14,4 +14,7 @@ public class BaseAppFragment extends Fragment {
     public String getTitle() {
         return title;
     }
+
+
+
 }

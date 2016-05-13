@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.util.Log;
 
-import com.juhezi.waterpump.CallBacks.SignCallBack;
 import com.videogo.constant.Constant;
 import com.videogo.exception.BaseException;
 import com.videogo.openapi.EZOpenSDK;
