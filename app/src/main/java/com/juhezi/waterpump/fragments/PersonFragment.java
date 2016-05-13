@@ -5,12 +5,17 @@ import android.support.annotation.Nullable;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ImageSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import com.juhezi.waterpump.CallBacks.SignCallBack;
 import com.juhezi.waterpump.R;
+import com.videogo.openapi.EZOpenSDK;
+import com.videogo.openapi.bean.EZUserInfo;
 
 /**
  * PersonFragment
@@ -24,16 +29,40 @@ public class PersonFragment extends BaseFragment {
 
     private static final String TAG = "PersonFragment";
 
+    private EZUserInfo mEzUserInfo;
     private View rootView;
+    private Button signInEzvizButton;
+    private Button signOutEzvizButton;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_person, container, false);
-        SpannableString spannableString = new SpannableString(" HELLO WORLD");
-        spannableString.setSpan(new ImageSpan(getActivity(), R.mipmap.ic_launcher), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        ((TextView) (rootView.findViewById(R.id.show))).setText(spannableString);
+        signInEzvizButton = (Button) rootView.findViewById(R.id.signInEzvizButton);
+        signOutEzvizButton = (Button) rootView.findViewById(R.id.signOutEzvizButton);
         return rootView;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        initEvent();
+    }
+
+    private void initEvent() {
+
+        signInEzvizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EZOpenSDK.getInstance().openLoginPage();
+            }
+        });
+        signOutEzvizButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EZOpenSDK.getInstance().logout();
+            }
+        });
     }
 
 }

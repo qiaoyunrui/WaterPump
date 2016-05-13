@@ -15,6 +15,7 @@ import com.juhezi.waterpump.Fragments.GraphFragment;
 import com.juhezi.waterpump.Fragments.PersonFragment;
 import com.juhezi.waterpump.Fragments.VideoFragment;
 import com.juhezi.waterpump.Other.Config;
+import com.juhezi.waterpump.Services.SocketService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private ViewPager mViewPager;
 
     private Intent mIntent;
+    private Intent serviceIntent;
     private SharedPreferences mSharedPreferences;
 
     private List<String> tabNames;
@@ -59,6 +61,14 @@ public class MainActivity extends BaseActivity {
 
         initEvent();
 
+        startSocketService();
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        stopSocketService();
     }
 
     private void initView() {
@@ -113,5 +123,21 @@ public class MainActivity extends BaseActivity {
             finish();
         }
     }
+
+    /**
+     * 开启长连接服务
+     */
+    private void startSocketService() {
+        serviceIntent = new Intent(this, SocketService.class);
+        startService(serviceIntent);
+    }
+
+    /**
+     * 停止service
+     */
+    private void stopSocketService() {
+        stopService(serviceIntent);
+    }
+
 
 }

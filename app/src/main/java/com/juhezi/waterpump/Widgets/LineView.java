@@ -21,6 +21,9 @@ import com.juhezi.waterpump.DataStructure.LoopList;
 import com.juhezi.waterpump.DataStructure.Node;
 import com.juhezi.waterpump.Other.Config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * LineView
  *
@@ -47,7 +50,11 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
     private int numOfXPoints = 5;    //横坐标显示点的个数
     private int maxValue = 100;     //最大值
     private int warningValue = 80;  //警戒值
-    private int period = 1000;  //循环周期
+    private int period = 3000;  //循环周期
+
+    private String tempString;
+
+    private List<String> nameList = new ArrayList<>();
 
     private int[] colors = {Color.BLUE, Color.DKGRAY, Color.GRAY, Color.MAGENTA};
 
@@ -72,6 +79,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     public void setNumOfXPoints(int numOfXPoints) {
         this.numOfXPoints = numOfXPoints;
+        loopList.setLength(this.numOfXPoints);
     }
 
     public int getMaxValue() {
@@ -104,9 +112,6 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         viewWidth = getWidth();
         margin = viewWidth / 7;
         mIsDrawing = true;
-        //绘制基本组件
-//        draw();
-//        开启动态绘制
         new Thread(this).start();
     }
 
@@ -142,7 +147,6 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setKeepScreenOn(true);
-
         loopList = new LoopList<>(numOfXPoints);
     }
 
@@ -163,7 +167,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
             mPaint.setPathEffect(mPathEffect);
             mPaint.setStrokeWidth(2.5f);
             for (int i = 0; i < numOfXPoints; i++) {
-                mCanvas.drawLine(margin + i * (viewWidth - 2 * margin) / 4, viewHeight - margin, margin + i * (viewWidth - 2 * margin) / 4, 0, mPaint);
+                mCanvas.drawLine(margin + i * (viewWidth - 2 * margin) / (numOfXPoints - 1), viewHeight - margin, margin + i * (viewWidth - 2 * margin) / (numOfXPoints - 1), 0, mPaint);
             }
             //绘制警戒线
             mPaint.setColor(Color.RED);
@@ -174,6 +178,27 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                     (float) (1 - (warningValue / 100.0)) * (viewHeight - margin),
                     mPaint);
             update(mCanvas, mPaint);
+            mPaint.setTextSize(20);
+            //绘制标识
+            for (int i = 0; i < loopList.getNumOfValues(); i++) {
+                mPaint.setColor(colors[i]);
+                mCanvas.drawCircle((viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + margin,
+                        viewHeight - margin / 3,
+                        10,
+                        mPaint);
+                if (nameList.get(i) == null) {
+                    tempString = i + "";
+                } else {
+                    tempString = nameList.get(i);
+                }
+                mCanvas.drawText(
+                        tempString,
+                        (viewWidth - margin * 2) * i / (loopList.getNumOfValues() - 1) + 5 * margin / 4,
+                        viewHeight - margin / 4,
+                        mPaint
+                );
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -211,9 +236,9 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                      * 绘制折线
                      */
                     mCanvas.drawLine(
-                            margin + (numOfXPoints - loopList.size() + i - 1) * (viewWidth - 2 * margin) / 4,
+                            margin + (numOfXPoints - loopList.size() + i - 1) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                             (float) (1 - (loopList.get(i - 1).getValues().get(j) / maxValue)) * (viewHeight - margin),
-                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                             (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin),
                             mPaint);
                     if (loopList.get(i).getValues().get(j) < warningValue) {    //正常数值
@@ -226,7 +251,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                      * 绘制节点
                      */
                     mCanvas.drawCircle(
-                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                             (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin),
                             10,
                             mPaint);
@@ -237,7 +262,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                     mPaint.setTextSize(30);
                     mCanvas.drawText(
                             loopList.get(i).getValues().get(j).intValue() + "",
-                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4 - margin / 2,
+                            margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / (numOfXPoints - 1) - margin / 2,
                             (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin) + 10,
                             mPaint);
 
@@ -251,7 +276,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mPaint.setTextSize(30);
                 mCanvas.drawText(
                         loopList.get(i).getSecond() + "",
-                        margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / 4,
+                        margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                         viewHeight - margin / 2,
                         mPaint);
 
@@ -274,7 +299,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                      * 绘制节点
                      */
                     mCanvas.drawCircle(
-                            margin + (numOfXPoints - loopList.size()) * (viewWidth - 2 * margin) / 4,
+                            margin + (numOfXPoints - loopList.size()) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                             (float) ((1 - (loopList.get(0).getValues().get(j) / maxValue)) * (viewHeight - margin)),
                             10,
                             mPaint);
@@ -284,8 +309,8 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                      */
                     mPaint.setTextSize(30);
                     mCanvas.drawText(
-                            loopList.get(0).getValues().get(0).intValue() + "",
-                            margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / 4 - margin / 2,
+                            loopList.get(0).getValues().get(j).intValue() + "",
+                            margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / (numOfXPoints - 1) - margin / 2,
                             (float) (1 - (loopList.get(0).getValues().get(j) / maxValue)) * (viewHeight - margin) + 10,
                             mPaint);
 
@@ -299,7 +324,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 mPaint.setTextSize(30);
                 mCanvas.drawText(
                         loopList.get(0).getSecond() + "",
-                        margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / 4,
+                        margin + (numOfXPoints - loopList.size() + 0) * (viewWidth - 2 * margin) / (numOfXPoints - 1),
                         viewHeight - margin / 2,
                         mPaint);
 
@@ -317,4 +342,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         loopList.setNumOfValues(num);
     }
 
+    public void pushName(String name) {
+        nameList.add(name);
+    }
 }

@@ -62,4 +62,7 @@ public class LoopList<T> {
         this.numOfValues = numOfValues;
     }
 
+    public void setLength(int length) {
+        this.length = length;
+    }
 }

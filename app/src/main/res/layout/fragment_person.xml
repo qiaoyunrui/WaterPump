@@ -4,13 +4,16 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/show"
+    <Button
+        android:id="@+id/signInEzvizButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World"
-        android:textSize="30sp" />
+        android:text="@string/signInEzviz" />
 
+    <Button
+        android:id="@+id/signOutEzvizButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/signOutEzviz" />
 
 </LinearLayout>
