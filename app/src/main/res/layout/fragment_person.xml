@@ -1,19 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:padding="@dimen/activity_horizontal_margin"
+    >
+
+    <ImageView
+        android:layout_centerHorizontal="true"
+        android:src="@mipmap/n_ic_launcher"
+        android:id="@+id/person_avatar_iv"
+        android:layout_width="@dimen/imageSize"
+        android:layout_height="@dimen/imageSize"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pickName"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/signOutEzvizButtonMargin"
+        android:layout_below="@+id/person_avatar_iv"
+        android:textColor="@android:color/black"
+        android:textSize="@dimen/pickNameSize"
+        />
 
     <Button
+        android:layout_above="@+id/signOutEzvizButton"
         android:id="@+id/signInEzvizButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/signInEzviz" />
+        android:background="@color/accent"
+        android:clickable="true"
+        android:text="@string/signInEzviz"
+        android:layout_marginBottom="@dimen/signOutEzvizButtonMargin"/>
 
     <Button
+        android:layout_alignParentBottom="true"
         android:id="@+id/signOutEzvizButton"
         android:layout_width="match_parent"
+        android:clickable="true"
         android:layout_height="wrap_content"
-        android:text="@string/signOutEzviz" />
+        android:text="@string/signOutEzviz"
+        android:background="@color/divider"/>
 
-</LinearLayout>
+</RelativeLayout>

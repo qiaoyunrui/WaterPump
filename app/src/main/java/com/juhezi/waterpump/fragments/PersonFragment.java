@@ -44,7 +44,6 @@ public class PersonFragment extends BaseFragment {
     }
 
     private void initEvent() {
-
         signInEzvizButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class VideoFragment extends BaseFragment {
 
-    private static final String TAG = "PersonFragment";
+    private static final String TAG = "VideoFragment";
 
     private EZUserInfo mEZUserInfo;
     private EZOpenSDK mEZOpenSDK;

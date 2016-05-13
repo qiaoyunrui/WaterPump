@@ -3,6 +3,7 @@
     <string name="username">用户名</string>
     <string name="password">密码</string>
     <string name="default_ip">192.168.43.155</string>
-    <string name="signInEzviz">登录萤石云</string>
-    <string name="signOutEzviz">登出萤石云</string>
+    <string name="signInEzviz">登录</string>
+    <string name="signOutEzviz">登出</string>
+    <string name="pickName">JuheziX</string>
 </resources>
