@@ -53,22 +53,7 @@ public class VideoFragment extends BaseFragment {
         videoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread() {
-                    @Override
-                    public void run() {
-                        Log.i(TAG, "start");
-                        mEZOpenSDK = EZOpenSDK.getInstance();
-                        try {
-                            /*List<EZCameraInfo> list = mEZOpenSDK.getCameraList(0, 10);
-                            Log.i(TAG, "length is " + list.size());*/
-                            mEZUserInfo = mEZOpenSDK.getUserInfo();
-                            Log.i(TAG, mEZUserInfo.toString());
-                        } catch (BaseException e) {
-                            Log.i(TAG, e.getErrorCode() + " " + e.getMessage());
-                            e.printStackTrace();
-                        }
-                    }
-                }.start();
+
             }
         });
     }

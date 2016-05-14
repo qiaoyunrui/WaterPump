@@ -9,6 +9,7 @@ package com.juhezi.waterpump.Other;
 public class Config {
 
     public static final String SIGN_INFO = "signInfo";
+
     public static final String SIGN_STATE = "signState";
 
     public static final String HTTP = "http://";
@@ -26,4 +27,6 @@ public class Config {
     public static final String SECRET = "ce358af6aa68b75070a8777f63ebdf08";
 
     public static final int PERIOD = 3000;
+
+    public static final String FRAGMENT_BUNDLE_KEY = "fragment_bundle_key";
 }

@@ -3,9 +3,12 @@ package com.juhezi.waterpump.Broadcasts;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.juhezi.waterpump.Fragments.PersonFragment;
+import com.juhezi.waterpump.Other.Config;
 import com.videogo.constant.Constant;
 import com.videogo.exception.BaseException;
 import com.videogo.openapi.EZOpenSDK;
@@ -28,12 +31,12 @@ public class EzvizBroadcastReceiver extends BroadcastReceiver {
     private final static String TAG = "EzvizBroadcastReceiver";
 
     private EZOpenSDK mEzoPenSDK;
-    private List<EZCameraInfo> cameraList = new ArrayList<>();
+    private PersonFragment mPersonFragment;
+    private Bundle mBundle;
 
     @Override
     public void onReceive(Context context, Intent intent) {
         String action = intent.getAction();
-        String message = intent.getStringExtra("message_extra");
         if (action.equals(Constant.OAUTH_SUCCESS_ACTION)) {
             //保存token及token超时时间
             mEzoPenSDK = EZOpenSDK.getInstance();
@@ -41,8 +44,10 @@ public class EzvizBroadcastReceiver extends BroadcastReceiver {
                 EZAccessToken token = mEzoPenSDK.getEZAccessToken();
                 mEzoPenSDK.setAccessToken(token.getAccessToken());
             }
+
         }
     }
+
 }
 
 
