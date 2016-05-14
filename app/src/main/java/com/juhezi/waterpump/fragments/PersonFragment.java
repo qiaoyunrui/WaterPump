@@ -71,7 +71,7 @@ public class PersonFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
         initEvent();
-        initData();
+//        initData();
     }
 
     private void initEvent() {
@@ -112,5 +112,4 @@ public class PersonFragment extends BaseFragment {
             }
         }.start();
     }
-
 }
