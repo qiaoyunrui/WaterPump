@@ -53,6 +53,7 @@
             </intent-filter>
         </receiver>
 
+        <service android:name=".Services.SocketService"/>
 
     </application>
 

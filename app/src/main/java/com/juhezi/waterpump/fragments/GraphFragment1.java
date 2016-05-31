@@ -56,6 +56,7 @@ public class GraphFragment1 extends BaseFragment implements Callback{
         super.handleBundle(bundle);
         if(bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
+            node.deleteX(0);
         }
         if(mLineView != null) {
             mLineView.pushNode(node);

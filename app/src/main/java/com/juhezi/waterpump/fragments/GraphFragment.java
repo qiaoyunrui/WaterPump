@@ -12,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.juhezi.waterpump.Activities.MainActivity;
 import com.juhezi.waterpump.Adapters.VPAndTLAdapter;
 import com.juhezi.waterpump.DataStructure.LoopList;
 import com.juhezi.waterpump.DataStructure.Node;
@@ -19,6 +20,9 @@ import com.juhezi.waterpump.Network.SocketUtil;
 import com.juhezi.waterpump.Other.Config;
 import com.juhezi.waterpump.R;
 import com.juhezi.waterpump.Widgets.LineView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -61,6 +65,7 @@ public class GraphFragment extends BaseFragment {
     private Timer mTimer;
     private Node node;
     private Bundle bundle;
+    private JSONArray mJsonArray;
 
 
     @Nullable
@@ -127,13 +132,23 @@ public class GraphFragment extends BaseFragment {
             @Override
             public void run() {
                 bundle = new Bundle();
-                node = new Node(new Date().getSeconds());
-                long seed = System.currentTimeMillis();
+                /*long seed = System.currentTimeMillis();
                 for (int i = 0; i < 4; i++) {
                     node.addValue(new Random(seed + i * i * 10).nextDouble() * 100);
                     seed = new Random(seed).nextLong() * 1000;
-                }
+                }*/
 //                Node node = new Node(new Date().getSeconds(), result);
+                mJsonArray = ((MainActivity)getActivity()).getData();   //获取到JSON数据
+                node = new Node(new Date().getSeconds());
+                if(mJsonArray != null) {
+                    for(int i = 0;i < 15;i++) {
+                        try {
+                            node.addValue(mJsonArray.getInt(i));    //向数据节点添加数据
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
                 bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
                 for(BaseFragment fragment : fragments) {
                         fragment.handleBundle(bundle);

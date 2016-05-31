@@ -64,6 +64,12 @@ public class Node implements Serializable {
         return values;
     }
 
+    public void deleteX(int flag) {
+        for(int i =0;i < (flag < values.size() ? flag : values.size());i++) {
+            values.remove(0);   //移除前面的数据
+        }
+    }
+
     @Override
     public String toString() {
         return "Node{" +

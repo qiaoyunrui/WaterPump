@@ -4,6 +4,9 @@ import android.util.Log;
 
 import com.juhezi.waterpump.Other.Config;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.Socket;
@@ -23,22 +26,22 @@ public class SocketUtil {
     /**
      * 创建socket客户端，并接收数据
      */
-    public static int socketClient() {
-        int result = 0;
+    public static JSONArray socketClient() {
+        JSONArray mJsonArray = null;
         try {
             Socket mSocket = new Socket(Config.DEFAULT_PORT,Config.PORT);
             mSocket.setSoTimeout(5000);    //5s超时
             BufferedReader mBufferedReader = new BufferedReader(
                     new InputStreamReader(
                             mSocket.getInputStream()));
-            String line = mBufferedReader.readLine();
-            result = Integer.parseInt(line);
+            String line = mBufferedReader.readLine();   //获取一行数据
+            mJsonArray = new JSONArray(line);    //将其解析为一个JSON对象,一会进行修改
             mBufferedReader.close();
             mSocket.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return result;
+        return mJsonArray;
     }
 
 }

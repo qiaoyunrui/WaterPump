@@ -20,13 +20,13 @@ public class Config {
 
     public static final int PORT = 12138;
 
-    public static final String DEFAULT_PORT = "192.168.191.1";
+    public static final String DEFAULT_PORT = "192.168.191.1";  //服务器ip地址
 
     public static final String APPKEY = "e48b95f938d6446b958a219f281e00ef";
 
     public static final String SECRET = "ce358af6aa68b75070a8777f63ebdf08";
 
-    public static final int PERIOD = 3000;
+    public static final int PERIOD = 3000;  //间隔时间
 
     public static final String FRAGMENT_BUNDLE_KEY = "fragment_bundle_key";
 }

@@ -55,6 +55,7 @@ public class GraphFragment3 extends BaseFragment {
         super.handleBundle(bundle);
         if(bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
+            node.deleteX(3);
         }
         if(mLineView != null) {
             mLineView.pushNode(node);
