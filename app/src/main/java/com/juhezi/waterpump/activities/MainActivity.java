@@ -158,7 +158,12 @@ public class MainActivity extends BaseActivity {
     }
 
     public JSONArray getData() {
-        return mSocketBinder.getData();
+        if (mSocketBinder != null) {
+            return mSocketBinder.getData();
+        } else {
+            return null;
+        }
+        //return mSocketBinder.getData();
     }
 
 }

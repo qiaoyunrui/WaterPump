@@ -227,6 +227,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                 if (loopList.size() == 1) {
                     break;
                 }
+                //4或者3
                 for (int j = 0; j < loopList.getNumOfValues(); j++) {
                     //设置不同的画笔颜色
                     mPaint.setColor(colors[j]);
@@ -265,8 +266,6 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
                             margin + (numOfXPoints - loopList.size() + i) * (viewWidth - 2 * margin) / (numOfXPoints - 1) - margin / 2,
                             (float) (1 - (loopList.get(i).getValues().get(j) / maxValue)) * (viewHeight - margin) + 10,
                             mPaint);
-
-
                 }
 
                 /**
@@ -344,5 +343,15 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     public void pushName(String name) {
         nameList.add(name);
+    }
+
+    public void show() {
+        for (int i = 0; i < loopList.size(); i++) {
+            Log.i(TAG, i + " &&& " + loopList.get(i).toString());
+            /*for (int j = 0; j < loopList.getNumOfValues(); j++) {
+                Log.i(TAG, j + " ### " + loopList.get(i).getValues().get(j).intValue());
+            }*/
+        }
+        Log.i(TAG, "Over");
     }
 }

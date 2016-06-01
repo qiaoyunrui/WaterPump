@@ -110,7 +110,9 @@ public class VideoFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mEZPlayer.stopRealPlay();
+        if(mEZPlayer != null) {
+            mEZPlayer.stopRealPlay();
+        }
         mEZOpenSDK.releasePlayer(mEZPlayer);
     }
 }

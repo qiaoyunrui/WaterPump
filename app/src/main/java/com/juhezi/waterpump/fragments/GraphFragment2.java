@@ -2,6 +2,7 @@ package com.juhezi.waterpump.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,12 +51,14 @@ public class GraphFragment2 extends BaseFragment {
     @Override
     public void handleBundle(Bundle bundle) {
         super.handleBundle(bundle);
-        if(bundle != null) {
+        if (bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
             node.deleteX(4);
+            Log.i(TAG, node.toString());
         }
-        if(mLineView != null) {
+        if (mLineView != null) {
             mLineView.pushNode(node);
+            mLineView.show();
         }
     }
 }

@@ -1,5 +1,7 @@
 package com.juhezi.waterpump.DataStructure;
 
+import android.util.Log;
+
 import com.juhezi.waterpump.Other.Config;
 
 import java.io.Serializable;
@@ -15,6 +17,8 @@ import java.util.List;
  * 绘制在SurfaceView上的节点
  */
 public class Node implements Serializable {
+
+    private static final String TAG = "Node";
 
     private double value;   //代表的数值
     private int second; //所处的秒段
@@ -65,9 +69,10 @@ public class Node implements Serializable {
     }
 
     public void deleteX(int flag) {
-        for(int i =0;i < (flag < values.size() ? flag : values.size());i++) {
-            values.remove(0);   //移除前面的数据
+        for(int i = 0;i < (flag < values.size() ? flag : values.size());i++) {
+            this.values.remove(0);   //移除前面的数据
         }
+//        Log.i(TAG,values.toString());
     }
 
     @Override
