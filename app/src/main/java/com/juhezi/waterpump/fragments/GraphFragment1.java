@@ -19,7 +19,7 @@ import com.juhezi.waterpump.Widgets.LineView;
  * @author: Juhezi
  * @time: 2016/5/11 11:37
  */
-public class GraphFragment1 extends BaseFragment implements Callback{
+public class GraphFragment1 extends BaseFragment implements Callback {
 
     private static final String TAG = "GraphFragment1";
 
@@ -38,6 +38,7 @@ public class GraphFragment1 extends BaseFragment implements Callback{
     @Override
     public void onStart() {
         super.onStart();
+        isStart = true;
         initLineView();
     }
 
@@ -55,14 +56,24 @@ public class GraphFragment1 extends BaseFragment implements Callback{
     @Override
     public void handleBundle(Bundle bundle) {
         super.handleBundle(bundle);
-        if(bundle != null) {
+        if (!isStart) {
+//            Log.i(TAG, TAG + "Stop");
+            return;
+        }
+        if (bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
-            node.deleteX(0);
-            //Log.i(TAG,node.toString());
         }
 
-        if(mLineView != null) {
+        if (mLineView != null) {
+            node = new Node(node, 0, 4);
             mLineView.pushNode(node);
+//            mLineView.show(TAG);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        isStart = false;
+        super.onDestroy();
     }
 }

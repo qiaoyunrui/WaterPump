@@ -2,6 +2,7 @@ package com.juhezi.waterpump.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +25,7 @@ public class GraphFragment4 extends BaseFragment {
     private View rootView;
     private LineView mLineView;
     private Node node;
+    private Node tempNode;
 
     @Nullable
     @Override
@@ -36,11 +38,11 @@ public class GraphFragment4 extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        isStart = true;
         initLineView();
     }
 
     private void initLineView() {
-
         mLineView.setLoopListNumOfValues(4);
         mLineView.setNumOfXPoints(6);
         mLineView.pushName("管网水池液位一");
@@ -52,13 +54,24 @@ public class GraphFragment4 extends BaseFragment {
 
     @Override
     public void handleBundle(Bundle bundle) {
-        super.handleBundle(bundle);
-        if(bundle != null) {
+//        super.handleBundle(bundle);
+        if (!isStart) {
+//            Log.i(TAG, TAG + "Stop");
+            return;
+        }
+        if (bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
-            node.deleteX(4);
         }
-        if(mLineView != null) {
+        if (mLineView != null) {
+            node = new Node(node, 11, 15);
             mLineView.pushNode(node);
+//            mLineView.show(TAG);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        isStart = false;
+        super.onDestroy();
     }
 }

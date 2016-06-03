@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author: 乔云瑞
  * @time: 2016/4/18 15:30
- * <p/>
+ * <p>
  * 绘制在SurfaceView上的节点
  */
 public class Node implements Serializable {
@@ -32,6 +32,17 @@ public class Node implements Serializable {
     public Node(int second, double value) {
         this(second);
         this.value = value;
+    }
+
+    public Node(Node node, int start, int end) {
+        if (node == null) {
+            return;
+        }
+        this.second = node.getSecond();
+
+        for (int i = 0; i < (end - start); i++) {
+            this.values.add(node.getValues().get(start + i));
+        }
     }
 
     public double getValue() {
@@ -69,10 +80,10 @@ public class Node implements Serializable {
     }
 
     public void deleteX(int flag) {
-        for(int i = 0;i < (flag < values.size() ? flag : values.size());i++) {
+        int max = flag < values.size() ? flag : values.size();
+        for (int i = 0; i < (flag < values.size() ? flag : values.size()); i++) {
             this.values.remove(0);   //移除前面的数据
         }
-//        Log.i(TAG,values.toString());
     }
 
     @Override

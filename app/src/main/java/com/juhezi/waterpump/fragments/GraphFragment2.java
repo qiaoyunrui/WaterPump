@@ -37,6 +37,7 @@ public class GraphFragment2 extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        isStart = true;
         initLineView();
     }
 
@@ -51,14 +52,23 @@ public class GraphFragment2 extends BaseFragment {
     @Override
     public void handleBundle(Bundle bundle) {
         super.handleBundle(bundle);
+        if (!isStart) {
+//            Log.i(TAG, TAG + "Stop");
+            return;
+        }
         if (bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
-            node.deleteX(4);
-            Log.i(TAG, node.toString());
         }
         if (mLineView != null) {
+            node = new Node(node,4,7);
             mLineView.pushNode(node);
-            mLineView.show();
+//            mLineView.show(TAG);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        isStart = false;
+        super.onDestroy();
     }
 }

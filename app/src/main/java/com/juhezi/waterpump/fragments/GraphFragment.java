@@ -1,5 +1,8 @@
 package com.juhezi.waterpump.Fragments;
 
+import android.app.PendingIntent;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -7,6 +10,7 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -67,6 +71,10 @@ public class GraphFragment extends BaseFragment {
     private Bundle bundle;
     private JSONArray mJsonArray;
 
+    private Intent mIntent;
+    private SmsManager sms;
+
+    long lastTime = 0;
 
     @Nullable
     @Override
@@ -81,9 +89,17 @@ public class GraphFragment extends BaseFragment {
     public void onStart() {
         super.onStart();
 
+        init();
+
         initTablayoutAndViewPager();
 
         timer();
+
+    }
+
+    private void init() {
+
+        sms = SmsManager.getDefault();
 
     }
 
@@ -138,23 +154,52 @@ public class GraphFragment extends BaseFragment {
                     seed = new Random(seed).nextLong() * 1000;
                 }*/
 //                Node node = new Node(new Date().getSeconds(), result);
-                mJsonArray = ((MainActivity)getActivity()).getData();   //获取到JSON数据
-                node = new Node(new Date().getSeconds());
-                if(mJsonArray != null) {
-                    for(int i = 0;i < 15;i++) {
-                        try {
-                            node.addValue(mJsonArray.getInt(i));    //向数据节点添加数据
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                try {
+                    mJsonArray = ((MainActivity) getActivity()).getData();   //获取到JSON数据
+                    node = new Node(new Date().getSeconds());
+                    if (mJsonArray != null) {
+                        for (int i = 0; i < 15; i++) {
+                            try {
+                                node.addValue(mJsonArray.getInt(i));    //向数据节点添加数据
+                                sendSms(node);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
                         }
                     }
-                }
-                bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
-                for(BaseFragment fragment : fragments) {
+                    bundle.putSerializable(Config.NODE_BUNDLE_KEY, node);
+                    for (BaseFragment fragment : fragments) {
                         fragment.handleBundle(bundle);
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
                 }
+
             }
         };
         mTimer.schedule(task, 0, Config.PERIOD);
+    }
+
+    public void sendSms(Node node) {
+        String content = "WARNING";
+
+        if (System.currentTimeMillis() - lastTime < 600000) {
+            return;
+        }
+        switch (getWarning(node)) {
+
+            case 1:
+                sms.sendTextMessage(Config.PHONE_NUM, null, content, null, null);
+                lastTime = System.currentTimeMillis();
+        }
+    }
+
+    /**
+     * 判断是否超过警戒值
+     *
+     * @return
+     */
+    public int getWarning(Node node) {
+        return 0;
     }
 }

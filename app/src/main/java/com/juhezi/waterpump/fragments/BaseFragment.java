@@ -16,6 +16,8 @@ public class BaseFragment extends Fragment implements Callback {
 
     private final static String TAG = "BaseFragment";
 
+    boolean isStart = false;
+
     private OnSignInListener mOnSignInListener;  //登录监听器
 
     public void setOnSignInListener(OnSignInListener onSignInListener) {
@@ -24,5 +26,6 @@ public class BaseFragment extends Fragment implements Callback {
 
     @Override
     public void handleBundle(Bundle bundle) {
+
     }
 }

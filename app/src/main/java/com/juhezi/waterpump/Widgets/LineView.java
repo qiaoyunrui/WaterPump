@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author: 乔云瑞
  * @time: 2016/4/18 11:47
- * <p/>
+ * <p>
  * 绘制折线图
  */
 public class LineView extends SurfaceView implements SurfaceHolder.Callback, Runnable {
@@ -210,7 +210,7 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
 
     /**
      * 更新折线
-     * <p/>
+     * <p>
      * 1.绘制横坐标
      * 2.绘制网格（用虚线）
      * 3.绘制曲线，使用drawline
@@ -345,13 +345,9 @@ public class LineView extends SurfaceView implements SurfaceHolder.Callback, Run
         nameList.add(name);
     }
 
-    public void show() {
-        for (int i = 0; i < loopList.size(); i++) {
-            Log.i(TAG, i + " &&& " + loopList.get(i).toString());
-            /*for (int j = 0; j < loopList.getNumOfValues(); j++) {
-                Log.i(TAG, j + " ### " + loopList.get(i).getValues().get(j).intValue());
-            }*/
-        }
+    public void show(String tag) {
+        Log.i(TAG, tag + " Start");
+        Log.i(TAG, loopList.get(loopList.size()).toString());
         Log.i(TAG, "Over");
     }
 }

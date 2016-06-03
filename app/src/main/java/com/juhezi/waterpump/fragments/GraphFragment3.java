@@ -2,6 +2,7 @@ package com.juhezi.waterpump.Fragments;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,7 @@ public class GraphFragment3 extends BaseFragment {
     @Override
     public void onStart() {
         super.onStart();
+        isStart = true;
         initLineView();
     }
 
@@ -53,12 +55,24 @@ public class GraphFragment3 extends BaseFragment {
     @Override
     public void handleBundle(Bundle bundle) {
         super.handleBundle(bundle);
-        if(bundle != null) {
+        if (!isStart) {
+//            Log.i(TAG, TAG + "Stop");
+            return;
+        }
+        if (bundle != null) {
             node = (Node) bundle.getSerializable(Config.NODE_BUNDLE_KEY);
-            node.deleteX(3);
         }
-        if(mLineView != null) {
+        if (mLineView != null) {
+            node = new Node(node, 7, 11);
             mLineView.pushNode(node);
+//            Log.i(TAG, TAG + " ->> " + node.toString());
+//            mLineView.show(TAG);
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        isStart = false;
+        super.onDestroy();
     }
 }
