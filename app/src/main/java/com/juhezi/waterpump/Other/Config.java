@@ -20,9 +20,9 @@ public class Config {
 
     public static final int PORT = 12138;
 
-//    public static final String DEFAULT_PORT = "192.168.191.1";  //服务器ip地址
+    public static final String DEFAULT_PORT = "192.168.191.1";  //服务器ip地址
 
-    public static final String DEFAULT_PORT = "192.168.23.1";  //服务器ip地址
+//    public static final String DEFAULT_PORT = "192.168.23.1";  //服务器ip地址
 
     public static final String APPKEY = "e48b95f938d6446b958a219f281e00ef";
 
@@ -32,5 +32,5 @@ public class Config {
 
     public static final String FRAGMENT_BUNDLE_KEY = "fragment_bundle_key";
 
-    public static final String PHONE_NUM = "18434361023";
+    public static final String PHONE_NUM = "18734921881";
 }
